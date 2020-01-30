@@ -1,10 +1,19 @@
 // CRUD - create read update delete
 
-const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient
+// const mongodb = require('mongodb')
+// const MongoClient = mongodb.MongoClient
+// const ObjectID = mongodb.ObjectID, below is an equal, destructured version 
+
+const {MongoClient, ObjectID} = require('mongodb')
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
+
+// const id = new ObjectID()
+// console.log(id.id.length)
+
+// console.log(id.toHexString().length)
+
 
 MongoClient.connect(connectionURL,{ useUnifiedTopology: true, useNewUrlParser: true}, (error, client) => {
     if (error) {
@@ -13,49 +22,27 @@ MongoClient.connect(connectionURL,{ useUnifiedTopology: true, useNewUrlParser: t
 
     console.log('Connected correctly!')
     const db = client.db(databaseName)
-    // db.collection('users').insertOne({
-    //     name: 'Zhorik',
-    //     age: '27'
-    // }, (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert user')
-    //     }
 
-    //     console.log(result.ops)
+    // const updatePromise = db.collection('tasks').updateMany({
+    //     completed: false
+    // }, {
+    //     $set: {
+    //         completed: true
+    //     }
     // })
-    // db.collection('users').insertMany ([
-    //     {  
-    //         name: 'Jen',
-    //         age:28
-    //     }, {
-    //         name: 'Gogi',
-    //         age: 33
-    //     }
-    // ], (error,result) => {
-    //     if (error) {
-    //         console.log('Unable to insert documents')
-    //     }
 
-    //     console.log
+    // updatePromise.then((result) => {
+    //     console.log(result.modifiedCount)
+    // }).catch((error)=> {
+    //     console.log(error)
     // })
-    
-    db.collection('tasks').insertMany([
-        {
-            description: 'Uchitsya kagdii den',
-            completed: true
-        }, {
-            description:'Nuhat koksik',
-            completed: false
-        }, {
-            description: 'Bahnut gardosa',
-            completed: false
-        }
-    ], (error,result) => {
-        if (error) {
-            console.log('Unable to insert documents')
-        }
 
-        console.log(result.ops)
+    db.collection('tasks').deleteOne({
+        description: "Bahnut gardosa"
+    }). then((result) => {
+        console.log(result.deletedCount)
+    }).catch((error) => {
+        console.log(error)
     })
-})
+ })
 
