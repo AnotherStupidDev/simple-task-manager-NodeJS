@@ -15,7 +15,7 @@ const databaseName = 'task-manager'
 // console.log(id.toHexString().length)
 
 
-MongoClient.connect(connectionURL,{ useUnifiedTopology: true, useNewUrlParser: true}, (error, client) => {
+MongoClient.connect(connectionURL,{ useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false}, (error, client) => {
     if (error) {
         return console.log(error.message)
     } 
