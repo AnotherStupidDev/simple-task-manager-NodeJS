@@ -16,7 +16,7 @@ const sendCancelationEmail = (email, name) => {
         to: email,
         from: 'scourge077@gmail.com',
         subject: 'Why are you leaving..',
-        text: `Pidoras ${name}`
+        text: `Sorry, bratan... ${name}`
     })
 }
 

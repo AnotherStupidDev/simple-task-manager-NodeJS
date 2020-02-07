@@ -13,13 +13,3 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
 })
-
-var a = 1;
-var b = a;
-b = 2;
-
-var c = { foo: 'bar' }
-var d = c;
-d.foo = '123'
-console.log(a)
-console.log(c)
