@@ -6,10 +6,6 @@ const auth = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const router = new express.Router()
 
-
-
-
-
 router.post('/users', async (req, res) => {
     const user =  new User(req.body)
 
@@ -56,27 +52,9 @@ router.post('/users/logoutALL', auth, async (req, res)=> {
     }
 })
 
-
 router.get('/users/me', auth, async (req, res) => {
         res.send(req.user)
 })
-
-router.get('/users/:id', async (req,res) => {
-    const _id = req.params.id
-
-    try {
-        const user = await User.findById(_id)
-        
-        if(!user) {
-            return res.status(404).send(error.message)
-        }
-        
-        res.send(user)
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
-
 
 router.patch('/users/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
@@ -119,14 +97,13 @@ const upload = multer({
     }
 })
 
-
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height:250 }).png().toBuffer()
     req.user.avatar = buffer    
     await req.user.save()
     res.send()
 }, (error, req, res, next) => {
-    res.status(400).send({error:error.message})
+    res.status(400).send({ error: error.message })
 })
 
 router.delete('/users/me/avatar', auth, async (req, res) => {
@@ -146,7 +123,7 @@ router.get('/users/:id/avatar', async (req, res) => {
         res.set('Content-Type', 'image/png')
         res.send(user.avatar)
     } catch (error) {
-
+        res.status(404).send()
     }
 })
 
